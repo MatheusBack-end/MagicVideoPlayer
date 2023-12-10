@@ -12,6 +12,9 @@ public class VideoLoader {
         String[] list = directorie.list();
         
         for(String file: list) {
+            if(!file.endsWith(".png"))
+                continue;
+                
             frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
         }
     }
