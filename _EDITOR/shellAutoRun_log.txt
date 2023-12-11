@@ -1,2 +1,4 @@
 S/Unix shell started, type your command.
+>- S:video-player/sh: can't find: tty fd No such device or address
+>- S:video-player/sh: warning: won't have full job control
 >- S:video-player/Shell finalized
