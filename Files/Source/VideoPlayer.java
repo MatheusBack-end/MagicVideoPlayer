@@ -47,5 +47,5 @@ private double getDeltaFrame() {
 }
 
 private boolean endThisBlock() {
-    return videoLoader.block * videoLoader.sizeOfBlock <= actualFrameIndex;
+    return videoLoader.block * videoLoader.sizeOfBlock == (actualFrameIndex - 1);
 }

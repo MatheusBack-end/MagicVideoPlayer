@@ -3,7 +3,7 @@ public class VideoLoader {
     public String path = "Data/";
     public File directorie;
     public List<Texture> frames = new ArrayList<Texture>();
-    public int block = 0;
+    public int block = 1;
     public String[] allFiles;
     public int videoTotalSize = 0;
     public int sizeOfBlock = 60; // N frames per block
@@ -15,12 +15,14 @@ public class VideoLoader {
             return;
             
         allFiles = filterFrames();
+        block = 1;
         loadNextBlock();
     }
     
     public void loadNextBlock() {
         for(int i = 0; i < sizeOfBlock; i++) {
             String file = allFiles[i * block];
+            Console.log(i * block + " - " + block);
             
             if(!file.endsWith(".jpeg"))
                 continue;
