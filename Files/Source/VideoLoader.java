@@ -14,23 +14,21 @@ public class VideoLoader {
         if(!directorie.isDirectory())
             return;
             
-        allFiles = filterFrames();
-        block = 1;
+        allFiles = directorie.list(new FilenameFilter() {
+            public boolean accept(java.io.File dir, String name) {
+                return name.endsWith(".jpeg");
+            }
+        });
+        
+        block = 1; // declaration not found, @see header
         loadNextBlock();
     }
     
     public void loadNextBlock() {
         for(int i = 0; i < sizeOfBlock; i++) {
             String file = allFiles[(i * block) + sizeOfBlock];
-            
-            if(!file.endsWith(".jpeg"))
-                continue;
-            
-            try {
-                frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
-            } catch(Exception e) {
-                
-            }
+
+            frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
         }
         
         block++;
@@ -40,32 +38,8 @@ public class VideoLoader {
         if(videoTotalSize != 0)
             return videoTotalSize;
         
-        String[] all = directorie.list();
-        
-        for(String file: all) {
-            if(!file.endsWith(".jpeg"))
-                continue;
-                
-            videoTotalSize++;
-        }
+        videoTotalSize = allFiles.length;
         
         return videoTotalSize;
-    }
-    
-    public String[] filterFrames() {
-        String[] all = directorie.list();
-        String[] files = new String[getTotalVideoSize()];
-        int offset = 0;
-        
-        for(int i = 0; i < all.length; i++) {
-            String file = all[i];
-            
-            if(file.endsWith(".jpeg")) {
-                files[offset] = file;
-                offset++;
-            }
-        }
-        
-        return files;
     }
 }

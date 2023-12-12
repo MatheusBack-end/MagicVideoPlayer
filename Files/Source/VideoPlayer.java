@@ -28,8 +28,9 @@ public void repeat() {
             videoLoader.loadNextBlock();
                 
         videoTime = ((1000 / fps) * actualFrameIndex) / 1000; // in seconds
-        setFrame(videoLoader.frames.get(actualFrameIndex++));
         debug.setText(videoLoader.allFiles[actualFrameIndex]); // frame name
+        setFrame(videoLoader.frames.get(actualFrameIndex++));
+        
         return;
     }
     
