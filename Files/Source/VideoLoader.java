@@ -9,7 +9,7 @@ public class VideoLoader {
     public int sizeOfBlock = 60; // N frames per block
     
     public void load() {
-        directorie = new File(Directories.getProjectFolder() + "Files/" + path);
+        directorie = new File(Directories.internal() + path);
         
         if(!directorie.isDirectory())
             return;
@@ -21,13 +21,16 @@ public class VideoLoader {
     
     public void loadNextBlock() {
         for(int i = 0; i < sizeOfBlock; i++) {
-            String file = allFiles[i * block];
-            Console.log(i * block + " - " + block);
+            String file = allFiles[(i * block) + sizeOfBlock];
             
             if(!file.endsWith(".jpeg"))
                 continue;
+            
+            try {
+                frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
+            } catch(Exception e) {
                 
-            frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
+            }
         }
         
         block++;

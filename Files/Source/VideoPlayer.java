@@ -4,6 +4,7 @@ public VideoLoader videoLoader = new VideoLoader();
 public int fps = 24;
 private double lastFrameTime = 0;
 public float videoTime;
+public SUIText debug;
 
 @AutoWired
 private SUIImage canvas;
@@ -28,6 +29,7 @@ public void repeat() {
                 
         videoTime = ((1000 / fps) * actualFrameIndex) / 1000; // in seconds
         setFrame(videoLoader.frames.get(actualFrameIndex++));
+        debug.setText(videoLoader.allFiles[actualFrameIndex]); // frame name
         return;
     }
     
@@ -47,5 +49,6 @@ private double getDeltaFrame() {
 }
 
 private boolean endThisBlock() {
-    return videoLoader.block * videoLoader.sizeOfBlock == (actualFrameIndex - 1);
+    return videoLoader.frames.size()  <= actualFrameIndex;
+    //return videoLoader.block * videoLoader.sizeOfBlock <= (actualFrameIndex);
 }
