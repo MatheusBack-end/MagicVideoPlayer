@@ -28,7 +28,7 @@ public void repeat() {
             videoLoader.loadNextBlock();
                 
         videoTime = ((1000 / fps) * actualFrameIndex) / 1000; // in seconds
-        debug.setText(videoLoader.allFiles[actualFrameIndex]); // frame name
+        debug.setText(videoLoader.frameNames.get(actualFrameIndex) + " - " + actualFrameIndex); // frame name
         setFrame(videoLoader.frames.get(actualFrameIndex++));
         
         return;
@@ -50,6 +50,5 @@ private double getDeltaFrame() {
 }
 
 private boolean endThisBlock() {
-    return videoLoader.frames.size()  <= actualFrameIndex;
-    //return videoLoader.block * videoLoader.sizeOfBlock <= (actualFrameIndex);
+    return videoLoader.frames.size() <= actualFrameIndex;
 }

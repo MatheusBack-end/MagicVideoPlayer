@@ -1,9 +1,12 @@
+import java.util.regex.*;
+
 public class VideoLoader {
     
     public String path = "Data/";
     public File directorie;
     public List<Texture> frames = new ArrayList<Texture>();
-    public int block = 1;
+    public List<String> frameNames = new ArrayList<String>();
+    public int block = 0;
     public String[] allFiles;
     public int videoTotalSize = 0;
     public int sizeOfBlock = 60; // N frames per block
@@ -20,15 +23,21 @@ public class VideoLoader {
             }
         });
         
-        block = 1; // declaration not found, @see header
         loadNextBlock();
     }
     
     public void loadNextBlock() {
         for(int i = 0; i < sizeOfBlock; i++) {
-            String file = allFiles[(i * block) + sizeOfBlock];
+            int index = (sizeOfBlock * block) + i;
 
+            if(index >= getTotalVideoSize())
+                break;
+            
+            String file = allFiles[index];
+            Console.log(getFrameIndex(file) + " - " + file + " (" + i + ")");
+            
             frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
+            frameNames.add(file);
         }
         
         block++;
@@ -41,5 +50,17 @@ public class VideoLoader {
         videoTotalSize = allFiles.length;
         
         return videoTotalSize;
+    }
+    
+    private int getFrameIndex(String frameName) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(frameName);
+
+        while (matcher.find()) {
+            String number = matcher.group();
+            return Integer.parseInt(number);
+        }
+        
+        return 0;
     }
 }
