@@ -17,11 +17,13 @@ public class VideoLoader {
         if(!directorie.isDirectory())
             return;
             
-        allFiles = directorie.list(new FilenameFilter() {
+        String[] all = directorie.list(new FilenameFilter() {
             public boolean accept(java.io.File dir, String name) {
                 return name.endsWith(".jpeg");
             }
         });
+        
+        allFiles = sort(all);
         
         loadNextBlock();
     }
@@ -62,5 +64,15 @@ public class VideoLoader {
         }
         
         return 0;
+    }
+    
+    private String[] sort(String[] all) {
+        String[] fileNames = new String[all.length];
+        
+        for(String file: all) {
+            fileNames[getFrameIndex(file) - 1] = file;
+        }
+        
+        return fileNames;
     }
 }
