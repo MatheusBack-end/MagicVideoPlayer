@@ -10,6 +10,8 @@ public class VideoLoader {
     public String[] allFiles;
     public int videoTotalSize = 0;
     public int sizeOfBlock = 60; // N frames per block
+    public boolean inAsyncLoad = false;
+    public int stack = 0;
     
     public void load() {
         directorie = new File(Directories.internal() + path);
@@ -28,6 +30,30 @@ public class VideoLoader {
         loadNextBlock();
     }
     
+    public void asyncLoad() {
+        if(!inAsyncLoad)
+            return;
+            
+        if(stack >= sizeOfBlock) {
+            inAsyncLoad = false;
+            stack = 0;
+            return;
+        }
+            
+        int index = (sizeOfBlock * block) + stack;
+        
+        if(index >= getTotalVideoSize()) {
+            inAsyncLoad = false;
+            return;
+        }
+        
+        String fileName = allFiles[index];
+        
+        frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/"  + fileName)));
+        frameNames.add(fileName);
+        stack++;
+    }
+    
     public void loadNextBlock() {
         for(int i = 0; i < sizeOfBlock; i++) {
             int index = (sizeOfBlock * block) + i;
@@ -36,7 +62,6 @@ public class VideoLoader {
                 break;
             
             String file = allFiles[index];
-            Console.log(getFrameIndex(file) + " - " + file + " (" + i + ")");
             
             frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
             frameNames.add(file);

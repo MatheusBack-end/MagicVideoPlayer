@@ -21,11 +21,15 @@ public void repeat() {
         lastFrameTime = java.lang.System.currentTimeMillis();
         
     if(actualFrameIndex < videoLoader.getTotalVideoSize()) {
+        videoLoader.asyncLoad();
+        
         if(getDeltaFrame() <= 1000 / fps)
             return;
         
-        if(endThisBlock())
-            videoLoader.loadNextBlock();
+        if(endThisBlock()) {
+            videoLoader.inAsyncLoad = true;
+            Console.log("end block");
+        }
                 
         videoTime = ((1000 / fps) * actualFrameIndex) / 1000; // in seconds
         debug.setText(videoLoader.frameNames.get(actualFrameIndex) + " - " + actualFrameIndex); // frame name
@@ -50,5 +54,5 @@ private double getDeltaFrame() {
 }
 
 private boolean endThisBlock() {
-    return videoLoader.frames.size() <= actualFrameIndex;
+    return videoLoader.frames.size() - (videoLoader.sizeOfBlock / 2) <= actualFrameIndex;
 }
