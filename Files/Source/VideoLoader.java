@@ -4,7 +4,7 @@ public class VideoLoader {
     
     public String path = "Data/";
     public File directorie;
-    public List<Texture> frames = new ArrayList<Texture>();
+    public List<Texture> frames = new LinkedList<Texture>();
     public List<String> frameNames = new ArrayList<String>();
     public int block = 0;
     public String[] allFiles;
@@ -35,8 +35,10 @@ public class VideoLoader {
             return;
             
         if(stack >= sizeOfBlock) {
+            removePreviousBlock();
             inAsyncLoad = false;
             stack = 0;
+            block++;
             return;
         }
             
@@ -52,6 +54,15 @@ public class VideoLoader {
         frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/"  + fileName)));
         frameNames.add(fileName);
         stack++;
+    }
+    
+    public void removePreviousBlock() {
+        for(int i = 0; i < sizeOfBlock; i++) {
+            int index = (sizeOfBlock * (block - 1)) + i;
+            
+            frames.set(index, null);
+            Console.log("frame removed: " + index);
+        }
     }
     
     public void loadNextBlock() {
