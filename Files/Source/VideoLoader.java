@@ -18,7 +18,7 @@ public class VideoLoader {
         
         if(!directorie.isDirectory())
             return;
-            
+        
         String[] all = directorie.list(new FilenameFilter() {
             public boolean accept(java.io.File dir, String name) {
                 return name.endsWith(".jpeg");
@@ -52,7 +52,13 @@ public class VideoLoader {
         String fileName = allFiles[index];
         
         frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/"  + fileName)));
-        frameNames.add(fileName);
+        
+        /**
+         * DEBUG
+         *
+         * frameNames.add(fileName);
+         */
+         
         stack++;
     }
     
@@ -61,7 +67,6 @@ public class VideoLoader {
             int index = (sizeOfBlock * (block - 1)) + i;
             
             frames.set(index, null);
-            Console.log("frame removed: " + index);
         }
     }
     
@@ -75,7 +80,12 @@ public class VideoLoader {
             String file = allFiles[index];
             
             frames.add(Texture.loadFile(new File(directorie.getAbsolutePath() + "/" + file)));
-            frameNames.add(file);
+            
+            /**
+             * DEBUG
+             * 
+             * frameNames.add(file);
+             */
         }
         
         block++;

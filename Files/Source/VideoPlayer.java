@@ -26,13 +26,17 @@ public void repeat() {
         if(getDeltaFrame() <= 1000 / fps)
             return;
         
-        if(endThisBlock()) {
+        if(endThisBlock())
             videoLoader.inAsyncLoad = true;
-            Console.log("end block");
-        }
                 
         videoTime = ((1000 / fps) * actualFrameIndex) / 1000; // in seconds
-        debug.setText(videoLoader.frameNames.get(actualFrameIndex) + " - " + actualFrameIndex); // frame name
+        
+        /**
+         * DEBUG
+         *
+         * debug.setText(videoLoader.frameNames.get(actualFrameIndex) + " - " + actualFrameIndex); // frame name
+         */
+         
         setFrame(videoLoader.frames.get(actualFrameIndex++));
         
         return;
